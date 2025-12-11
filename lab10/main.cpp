@@ -3,7 +3,6 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <algorithm>
 
 std::map<std::string, std::string> tr = {
 		{"а","a"},{"б","b"},{"в","v"},{"г","g"},{"д","d"},{"е","e"},{"ё","yo"},
@@ -31,6 +30,21 @@ std::string translit(const std::string &text) {
     return out;
 }
 
+void sortByFreq(std::vector<std::pair<char,int>> &v)
+{
+    for (size_t i = 0; i < v.size(); ++i) {
+        for (size_t j = 0; j + 1 < v.size(); ++j) {
+            if (v[j].second < v[j + 1].second) {
+                std::pair<char,int> temp = v[j];
+                v[j] = v[j + 1];
+                v[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+
 int main() {
     std::ifstream fin("input.txt");
     std::ofstream fout("output.txt");
@@ -41,14 +55,15 @@ int main() {
         return 1;
     }
 
-    std::string inputText((std::istreambuf_iterator<char>(fin)),
-                           std::istreambuf_iterator<char>());
+    char c;
+    std::string inputText;
+    while (fin.get(c)) {
+        inputText += c;
+    }
 
-    // 1) Перевод
     std::string outText = translit(inputText);
     fout << outText;
 
-    // 2) Частоты
     std::map<char, int> freq;
     for (char c : outText) {
         if (std::isalpha((unsigned char)c))
@@ -58,13 +73,10 @@ int main() {
     // Вектор для сортировки
     std::vector<std::pair<char, int>> vec(freq.begin(), freq.end());
 
-    std::sort(vec.begin(), vec.end(),
-              [](const std::pair<char,int> &a, const std::pair<char,int> &b) {
-                  return a.second > b.second;
-              });
+    sortByFreq(vec);
 
     // Вывод
-    for (auto &p : vec) {
+    for (std::pair<char, int> &p : vec) {
         fstat << p.first << " - " << p.second << "\n";
     }
 
