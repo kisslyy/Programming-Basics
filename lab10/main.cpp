@@ -70,12 +70,10 @@ int main() {
             freq[c]++;
     }
 
-    // Вектор для сортировки
     std::vector<std::pair<char, int>> vec(freq.begin(), freq.end());
 
     sortByFreq(vec);
 
-    // Вывод
     for (std::pair<char, int> &p : vec) {
         fstat << p.first << " - " << p.second << "\n";
     }
