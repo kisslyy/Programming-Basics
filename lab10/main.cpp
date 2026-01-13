@@ -51,7 +51,7 @@ int main() {
     std::ofstream fstat("stat.txt");
 
     if (!fin.is_open()) {
-        std::cout << "Íå óäàëîñü îòêğûòü input.txt\n";
+        std::cout << "˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜ input.txt\n";
         return 1;
     }
 

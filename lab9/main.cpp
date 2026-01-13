@@ -30,7 +30,7 @@ void PRINT(Node* head) {
     std::cout << "\n";
 }
 
-// удалить узел после prev
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ prev
 void DELETE_AFTER(Node* prev) {
     if (prev == nullptr || prev->next == nullptr) return;
     Node* t = prev->next;
@@ -38,7 +38,7 @@ void DELETE_AFTER(Node* prev) {
     delete t;
 }
 
-// удаление первого элемента
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void DELETE_FRONT(Node* head) {
     if (head->next == nullptr) return;
     Node* t = head->next;
@@ -63,7 +63,7 @@ bool isPrime(int x) {
     return true;
 }
 
-// cорт по невозрастанию
+// cпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void SORT_DESC(Node* head) {
     for (Node* i = head->next; i != nullptr; i = i->next) {
         for (Node* j = i->next; j != nullptr; j = j->next) {
@@ -78,12 +78,12 @@ void SORT_DESC(Node* head) {
 
 int main() {
 
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "en_US.UTF-8");
 
     Node head;
     head.next = nullptr;
 
-    std::cout << "Введите натуральные числа (0 — конец ввода):\n";
+    std::cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (0 пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ):\n";
 
     int x;
     while (std::cin >> x && x > 0) {
@@ -105,20 +105,20 @@ int main() {
         Node* cur = head.next;
 
         while (cur != nullptr) {
-            // удалить простые
+            
             if (isPrime(cur->data)) {
                 DELETE_AFTER(prev);
                 cur = prev->next;
                 continue;
             }
 
-            // дублировать числа на 0
+            
             if (cur->data % 10 == 0) {
                 Node* copy = MAKE(cur->data);
                 copy->next = cur->next;
                 cur->next = copy;
 
-                prev = copy;     // пропускаем копию
+                prev = copy;
                 cur = copy->next;
                 continue;
             }
@@ -128,7 +128,7 @@ int main() {
         }
     }
 
-    std::cout << "\nРезультат:\n";
+    std::cout << "\n:\n";
     PRINT(&head);
 
     return 0;
