@@ -1,47 +1,75 @@
 #include <iostream>
+#include <cstring>
 
 class MyString {
 public:
-    MyString() { // default ctor
-        size_ = 1;
-        str_ = new char[size_];
-        str_[0] = '\0';
+    MyString() {
+        m_str = new char[1];
+        m_str[0] = '\0';
     }
-    MyString(const char* str) { // argument ctor
-        size_ = strlen(str);
-        str_ = new char[size_ + 1];
-        str_ = strcpy(str_, str);
+
+    MyString(const char* str) {
+        m_str = new char[strlen(str) + 1];
+        strcpy(m_str, str);
     }
-    MyString(const MyString& other) { // copy ctor
-        copyString(other);
+
+    MyString(const MyString& other) {
+        m_str = new char[strlen(other.m_str) + 1];
+        strcpy(m_str, other.m_str);
     }
+
     MyString& operator=(const MyString& other) {
-        copyString(other);
+        if (this != &other) {
+            delete[] m_str;
+            m_str = new char[strlen(other.m_str) + 1];
+            strcpy(m_str, other.m_str);
+        }
         return *this;
     }
-    ~MyString() { // dtor
-        delete[] str_;
-    }
-    void print() const {
-        for (size_t i = 0; i < size_; ++i) {
-            std::cout << str_[i];
-        }
-        std::cout << std::endl;
-    }
-private:
-    size_t size_;
-    char* str_;
 
-    void copyString(const MyString& other) {
-        size_ = strlen(other.str_);
-        str_ = new char[size_ + 1];
-        str_ = strcpy(str_, other.str_);
+    friend std::ostream& operator<<(std::ostream& os, const MyString& str) {
+        os << str.m_str;
+        return os;
     }
+
+    MyString operator+(const MyString& other) const {
+        size_t newLen = strlen(m_str) + strlen(other.m_str);
+        char* tempStr = new char[newLen + 1];
+
+        strcpy(tempStr, m_str);
+        strcat(tempStr, other.m_str);
+
+        MyString result(tempStr);
+        delete[] tempStr;
+
+        return result;
+    }
+
+    ~MyString() {
+        delete[] m_str;
+    }
+
+private:
+    char* m_str;
 };
 
 int main() {
-    MyString string1 = MyString();
-    MyString string2 = "abcd";
-    MyString string3 = string1;
-    
+
+    MyString s1 = MyString(); // default ctor
+    std::cout << "s1: " << s1 << "\n";
+
+    MyString s2 = "abcd"; // ctor char*
+    std::cout << "s2: " << s2 << "\n";
+
+    s1 = s2; // operator=
+    std::cout << "s1: " << s1 << "\n";
+
+    MyString s3 = s1; // copy ctor
+    std::cout << "s3: " << s3 << "\n";
+
+    MyString s4 = "qwert"; // ctor char*
+    std::cout << "s4: " << s4 << "\n";
+
+    MyString s5 = s2 + s4; // operator+
+    std::cout << "s5: " << s5 << "\n";
 }
